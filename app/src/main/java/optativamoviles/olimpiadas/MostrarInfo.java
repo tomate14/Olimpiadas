@@ -1,21 +1,21 @@
 package optativamoviles.olimpiadas;
 
 import android.content.Intent;
-import android.icu.util.Calendar;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 
 import Adaptadores.ListViewInfoCulturales;
 import Adaptadores.ListViewInfoPartidos;
+import Conexiones.LocalReciever;
 import Entidades.Cultural;
 import Entidades.Facultad;
 import Entidades.Partido;
@@ -26,6 +26,12 @@ public class MostrarInfo extends AppCompatActivity {
     private ExpandableListView  listView;
     private ArrayList<Partido>  partidos;
     private ArrayList<Cultural> culturales;
+    private LocalReciever reciever = new LocalReciever();
+
+    static final String TAG = MostrarInfo.class.getCanonicalName();
+    public static final String OPERATION = "OPERATION";
+    public static final String CULTURAL_SERVICE = "getculturales";
+    public static final String PARTIDO_SERVICE = "getpartidos";
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -65,16 +71,28 @@ public class MostrarInfo extends AppCompatActivity {
         int accion = intent.getIntExtra("lista_mostrar",0);
 
         //Pedir servicio
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(reciever,new IntentFilter(ServiceCaller.RESPONSE_ACTION));
+        Intent mServiceIntent = new Intent(MostrarInfo.this, ServiceCaller.class);
+
         switch (accion){
             case MenuPrincipal.ID_VERCULTURALES:
                 this.culturales = getCulturales();
                 this.listView = (ExpandableListView)findViewById(R.id.listView);
                 this.listView.setAdapter(new ListViewInfoCulturales(this,this.culturales));
+
+                mServiceIntent.putExtra(OPERATION,CULTURAL_SERVICE);
+                startService(mServiceIntent);
+
                 break;
             case MenuPrincipal.ID_VERPARTIDOS:
                 this.partidos = cargarPartidos();
                 this.listView = (ExpandableListView)findViewById(R.id.listView);
                 this.listView.setAdapter(new ListViewInfoPartidos(this,this.partidos));
+
+                mServiceIntent.putExtra(OPERATION,PARTIDO_SERVICE);
+                startService(mServiceIntent);
+
                 break;
         }
 

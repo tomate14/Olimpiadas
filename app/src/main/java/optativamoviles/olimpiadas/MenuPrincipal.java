@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -19,6 +20,7 @@ public class MenuPrincipal extends AppCompatActivity
 
     public static final int ID_VERPARTIDOS = 1;
     public static final int ID_VERCULTURALES = 2;
+    static final String TAG = MenuPrincipal.class.getCanonicalName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,11 +90,13 @@ public class MenuPrincipal extends AppCompatActivity
                 Intent ver_culturales = new Intent(MenuPrincipal.this,MostrarInfo.class);
                 ver_culturales.putExtra("lista_mostrar",ID_VERCULTURALES);
                 startActivity(ver_culturales);
+
                 break;
             case R.id.ver_partidos:
                 Intent ver_partidos = new Intent(MenuPrincipal.this,MostrarInfo.class);
                 ver_partidos.putExtra("lista_mostrar",ID_VERPARTIDOS);
                 startActivity(ver_partidos);
+
                 break;
         }
 
