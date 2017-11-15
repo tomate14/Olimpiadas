@@ -1,31 +1,37 @@
 package optativamoviles.olimpiadas;
 
 import android.content.Intent;
-import android.icu.util.Calendar;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
-import android.widget.ListView;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import Adaptadores.ListViewInfoCulturales;
 import Adaptadores.ListViewInfoPartidos;
+import Conexiones.LocalReceiver;
 import Entidades.Cultural;
 import Entidades.Facultad;
 import Entidades.Partido;
 
 public class MostrarInfo extends AppCompatActivity {
+    private static final String TAG = MostrarInfo.class.getCanonicalName();
 
-    //private TextView mTextMessage;
     private ExpandableListView  listView;
     private ArrayList<Partido>  partidos;
     private ArrayList<Cultural> culturales;
+
+    private LocalReceiver reciver = new LocalReceiver();
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -37,7 +43,8 @@ public class MostrarInfo extends AppCompatActivity {
                     //mTextMessage.setText(R.string.ver_ayer);
                     return true;
                 case R.id.ver_hoy:
-                   // mTextMessage.setText(R.string.ver_hoy);
+                    Log.d("Aux","Preveer");
+                    //Toast.makeText(MostrarInfo.this,"Preveer",Toast.LENGTH_SHORT);
                     return true;
                 case R.id.ver_mañana:
                    // mTextMessage.setText(R.string.ver_mañana);
@@ -65,17 +72,31 @@ public class MostrarInfo extends AppCompatActivity {
         int accion = intent.getIntExtra("lista_mostrar",0);
 
         //Pedir servicio
-        switch (accion){
-            case MenuPrincipal.ID_VERCULTURALES:
-                this.culturales = getCulturales();
-                this.listView = (ExpandableListView)findViewById(R.id.listView);
-                this.listView.setAdapter(new ListViewInfoCulturales(this,this.culturales));
-                break;
-            case MenuPrincipal.ID_VERPARTIDOS:
-                this.partidos = cargarPartidos();
-                this.listView = (ExpandableListView)findViewById(R.id.listView);
-                this.listView.setAdapter(new ListViewInfoPartidos(this,this.partidos));
-                break;
+        ConnectivityManager connMgr = (ConnectivityManager) getSystemService(MostrarInfo.CONNECTIVITY_SERVICE);
+        NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
+        if (networkInfo != null && networkInfo.isConnected()) {
+            switch (accion){
+                case MenuPrincipal.ID_VERCULTURALES:
+                    this.culturales = getCulturales();
+                    this.listView = (ExpandableListView)findViewById(R.id.listView);
+                    this.listView.setAdapter(new ListViewInfoCulturales(this,this.culturales));
+                    break;
+                case MenuPrincipal.ID_VERPARTIDOS:
+                    LocalBroadcastManager.getInstance(this).registerReceiver(reciver, new IntentFilter(ServicioPartido.RESPONSE_ACTION));
+
+                    Intent mServiceIntent = new Intent(MostrarInfo.this, ServicioPartido.class);
+                    //mServiceIntent.putExtra(ITERATION,i);
+                    startService(mServiceIntent);
+
+                    this.partidos = cargarPartidos();
+                    this.listView = (ExpandableListView)findViewById(R.id.listView);
+                    this.listView.setAdapter(new ListViewInfoPartidos(this,this.partidos));
+                    break;
+            }
+
+        } else {
+            //this.listView = (ExpandableListView)findViewById(R.id.listView);
+            Toast.makeText(MostrarInfo.this,"Conexion no disponible",Toast.LENGTH_SHORT);
         }
 
     }
@@ -113,6 +134,7 @@ public class MostrarInfo extends AppCompatActivity {
         return culturales;
     }
     private ArrayList<Partido> cargarPartidos() {
+
         ArrayList<Partido> partidos = new ArrayList<Partido>();
         Facultad f1 = new Facultad();
         f1.setId(1);

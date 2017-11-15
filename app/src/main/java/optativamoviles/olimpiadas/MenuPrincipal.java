@@ -19,7 +19,6 @@ public class MenuPrincipal extends AppCompatActivity
 
     public static final int ID_VERPARTIDOS = 1;
     public static final int ID_VERCULTURALES = 2;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
