@@ -49,6 +49,7 @@ public class ServicioPartido extends IntentService {
             int intResponse = conn.getResponseCode();
             Log.d(TAG,String.valueOf(intResponse));
             InputStream is = conn.getInputStream();
+
             String contentAsString = convertIsToString(is, 1000);
             Intent response = new Intent(RESPONSE_ACTION);
             response.putExtra("Accion",ME);

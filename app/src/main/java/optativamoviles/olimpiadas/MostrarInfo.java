@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import Adaptadores.ListViewInfoCulturales;
 import Adaptadores.ListViewInfoPartidos;
@@ -52,14 +53,14 @@ public class MostrarInfo extends AppCompatActivity {
         public boolean onNavigationItemSelected(MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.ver_ayer:
-                    //mTextMessage.setText(R.string.ver_ayer);
+                    setTitulo("Ayer");
                     return true;
                 case R.id.ver_hoy:
                     setTitulo("Hoy");
                     Log.d("Aux","Preveer");
                     return true;
                 case R.id.ver_mañana:
-                   // mTextMessage.setText(R.string.ver_mañana);
+                    setTitulo("Mañana");
                     return true;
             }
             return false;
@@ -84,11 +85,16 @@ public class MostrarInfo extends AppCompatActivity {
         int accion = intent.getIntExtra("lista_mostrar",0);
         //Pedir servicio
 
+        LocalBroadcastManager.getInstance(this).registerReceiver(reciever,new IntentFilter(ServiceCaller.RESPONSE_ACTION));
+        Intent mServiceIntent = new Intent(MostrarInfo.this, ServiceCaller.class);
+
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(MostrarInfo.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             switch (accion){
                 case MenuPrincipal.ID_VERCULTURALES:
+                    mServiceIntent.putExtra(OPERATION,CULTURAL_SERVICE);
+                    startService(mServiceIntent);
                     this.culturales = getCulturales();
                     this.listView = (ExpandableListView)findViewById(R.id.listView);
                     this.listView.setAdapter(new ListViewInfoCulturales(this,this.culturales));
@@ -96,10 +102,13 @@ public class MostrarInfo extends AppCompatActivity {
                 case MenuPrincipal.ID_VERPARTIDOS:
                    // LocalBroadcastManager.getInstance(this).registerReceiver(reciver, new IntentFilter(ServicioPartido.RESPONSE_ACTION));
 
-                    Intent mServiceIntent = new Intent(MostrarInfo.this, ServicioPartido.class);
-                    startService(mServiceIntent);
+                    //Intent mServiceIntent = new Intent(MostrarInfo.this, ServicioPartido.class);
+                    //startService(mServiceIntent);
 
                     this.partidos = cargarPartidos();
+                    mServiceIntent.putExtra(OPERATION,PARTIDO_SERVICE);
+                    startService(mServiceIntent);
+
                     this.listView = (ExpandableListView)findViewById(R.id.listView);
                     this.listView.setAdapter(new ListViewInfoPartidos(this,this.partidos));
                     break;
@@ -116,7 +125,19 @@ public class MostrarInfo extends AppCompatActivity {
     private void setTitulo(String fecha) {
         this.fecha      = (TextView) findViewById(R.id.txtFechaTitulo);
         SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
-        this.fecha.setText(format1.format(java.util.Calendar.getInstance().getTime()));
+        java.util.Calendar cal = java.util.Calendar.getInstance();
+        switch (fecha){
+            case "Ayer":
+                cal.add(java.util.Calendar.DATE,-1);
+                break;
+            case "Hoy":
+                cal.add(java.util.Calendar.DATE,0);
+                break;
+            case "Mañana":
+                cal.add(java.util.Calendar.DATE,1);
+                break;
+        }
+        this.fecha.setText(format1.format(cal.getTime()));
     }
 
     private ArrayList<Cultural> getCulturales(){
