@@ -19,6 +19,7 @@ import java.util.ArrayList;
 
 import Adaptadores.ListViewInfoCulturales;
 import Adaptadores.ListViewInfoPartidos;
+
 import Conexiones.LocalReceiver;
 import Entidades.Cultural;
 import Entidades.Facultad;
@@ -30,6 +31,12 @@ public class MostrarInfo extends AppCompatActivity {
     private ExpandableListView  listView;
     private ArrayList<Partido>  partidos;
     private ArrayList<Cultural> culturales;
+    private LocalReciever reciever = new LocalReciever();
+
+    static final String TAG = MostrarInfo.class.getCanonicalName();
+    public static final String OPERATION = "OPERATION";
+    public static final String CULTURAL_SERVICE = "getculturales";
+    public static final String PARTIDO_SERVICE = "getpartidos";
 
     private LocalReceiver reciver = new LocalReceiver();
 
@@ -72,6 +79,29 @@ public class MostrarInfo extends AppCompatActivity {
         int accion = intent.getIntExtra("lista_mostrar",0);
 
         //Pedir servicio
+
+        /*LocalBroadcastManager.getInstance(this).registerReceiver(reciever,new IntentFilter(ServiceCaller.RESPONSE_ACTION));
+        Intent mServiceIntent = new Intent(MostrarInfo.this, ServiceCaller.class);*/
+
+        /*switch (accion){
+            case MenuPrincipal.ID_VERCULTURALES:
+                this.culturales = getCulturales();
+                this.listView = (ExpandableListView)findViewById(R.id.listView);
+                this.listView.setAdapter(new ListViewInfoCulturales(this,this.culturales));
+
+                mServiceIntent.putExtra(OPERATION,CULTURAL_SERVICE);
+                startService(mServiceIntent);
+
+                break;
+            case MenuPrincipal.ID_VERPARTIDOS:
+                this.partidos = cargarPartidos();
+                this.listView = (ExpandableListView)findViewById(R.id.listView);
+                this.listView.setAdapter(new ListViewInfoPartidos(this,this.partidos));
+
+                mServiceIntent.putExtra(OPERATION,PARTIDO_SERVICE);
+                startService(mServiceIntent);
+
+                break;*/
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(MostrarInfo.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
@@ -97,6 +127,7 @@ public class MostrarInfo extends AppCompatActivity {
         } else {
             //this.listView = (ExpandableListView)findViewById(R.id.listView);
             Toast.makeText(MostrarInfo.this,"Conexion no disponible",Toast.LENGTH_SHORT);
+
         }
 
     }
