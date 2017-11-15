@@ -66,16 +66,16 @@ public class ListViewInfoCulturales extends BaseExpandableListAdapter {
     @Override
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent) {
         TextView txtFacultad1;
-        TextView txtFacultad2;
         TextView txtResultado;
-
-        View inflate = View.inflate(this.contexto, R.layout.infopartido,null);
-
+        TextView txtTitulo;
+        View inflate = View.inflate(this.contexto, R.layout.infocultural,null);
         txtFacultad1  = (TextView) inflate.findViewById(R.id.txtFacultad1);
-        //txtFacultad2 = (TextView) inflate.findViewById(R.id.txtFacultad2);
+        txtTitulo = (TextView) inflate.findViewById(R.id.txtCultural);
+        txtTitulo.setVisibility(View.INVISIBLE);
         txtResultado = (TextView) inflate.findViewById(R.id.txtResultado);
+
         txtFacultad1.setText(culturales.get(groupPosition).getFacultad().getNombre());
-        //txtFacultad2.setText(culturales.get(groupPosition).getFacultad2().getNombre());
+
         txtResultado.setText(culturales.get(groupPosition).getPuntos());
 
         return inflate;
@@ -83,7 +83,14 @@ public class ListViewInfoCulturales extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        return null;
+        TextView txtFecha;
+        TextView txtLugar;
+
+        View inflate = View.inflate(this.contexto, R.layout.infoculturalhijo,null);
+        txtFecha  = (TextView) inflate.findViewById(R.id.txtFecha);
+        txtLugar = (TextView) inflate.findViewById(R.id.txtLugar);
+
+        return inflate;
     }
 
     @Override

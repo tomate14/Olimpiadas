@@ -2,10 +2,12 @@ package optativamoviles.olimpiadas;
 
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.icu.util.Calendar;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+import android.support.annotation.RequiresApi;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.app.AppCompatActivity;
@@ -13,22 +15,25 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import Adaptadores.ListViewInfoCulturales;
 import Adaptadores.ListViewInfoPartidos;
 
 import Conexiones.LocalReceiver;
+import Conexiones.LocalReciever;
 import Entidades.Cultural;
 import Entidades.Facultad;
 import Entidades.Partido;
 
 public class MostrarInfo extends AppCompatActivity {
-    private static final String TAG = MostrarInfo.class.getCanonicalName();
 
     private ExpandableListView  listView;
+    private TextView fecha;
     private ArrayList<Partido>  partidos;
     private ArrayList<Cultural> culturales;
     private LocalReciever reciever = new LocalReciever();
@@ -44,14 +49,14 @@ public class MostrarInfo extends AppCompatActivity {
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
         @Override
-        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        public boolean onNavigationItemSelected(MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.ver_ayer:
                     //mTextMessage.setText(R.string.ver_ayer);
                     return true;
                 case R.id.ver_hoy:
+                    setTitulo("Hoy");
                     Log.d("Aux","Preveer");
-                    //Toast.makeText(MostrarInfo.this,"Preveer",Toast.LENGTH_SHORT);
                     return true;
                 case R.id.ver_mañana:
                    // mTextMessage.setText(R.string.ver_mañana);
@@ -77,31 +82,8 @@ public class MostrarInfo extends AppCompatActivity {
         view.performClick();
         Intent intent = getIntent();
         int accion = intent.getIntExtra("lista_mostrar",0);
-
         //Pedir servicio
 
-        /*LocalBroadcastManager.getInstance(this).registerReceiver(reciever,new IntentFilter(ServiceCaller.RESPONSE_ACTION));
-        Intent mServiceIntent = new Intent(MostrarInfo.this, ServiceCaller.class);*/
-
-        /*switch (accion){
-            case MenuPrincipal.ID_VERCULTURALES:
-                this.culturales = getCulturales();
-                this.listView = (ExpandableListView)findViewById(R.id.listView);
-                this.listView.setAdapter(new ListViewInfoCulturales(this,this.culturales));
-
-                mServiceIntent.putExtra(OPERATION,CULTURAL_SERVICE);
-                startService(mServiceIntent);
-
-                break;
-            case MenuPrincipal.ID_VERPARTIDOS:
-                this.partidos = cargarPartidos();
-                this.listView = (ExpandableListView)findViewById(R.id.listView);
-                this.listView.setAdapter(new ListViewInfoPartidos(this,this.partidos));
-
-                mServiceIntent.putExtra(OPERATION,PARTIDO_SERVICE);
-                startService(mServiceIntent);
-
-                break;*/
         ConnectivityManager connMgr = (ConnectivityManager) getSystemService(MostrarInfo.CONNECTIVITY_SERVICE);
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
@@ -112,10 +94,9 @@ public class MostrarInfo extends AppCompatActivity {
                     this.listView.setAdapter(new ListViewInfoCulturales(this,this.culturales));
                     break;
                 case MenuPrincipal.ID_VERPARTIDOS:
-                    LocalBroadcastManager.getInstance(this).registerReceiver(reciver, new IntentFilter(ServicioPartido.RESPONSE_ACTION));
+                   // LocalBroadcastManager.getInstance(this).registerReceiver(reciver, new IntentFilter(ServicioPartido.RESPONSE_ACTION));
 
                     Intent mServiceIntent = new Intent(MostrarInfo.this, ServicioPartido.class);
-                    //mServiceIntent.putExtra(ITERATION,i);
                     startService(mServiceIntent);
 
                     this.partidos = cargarPartidos();
@@ -130,6 +111,12 @@ public class MostrarInfo extends AppCompatActivity {
 
         }
 
+    }
+
+    private void setTitulo(String hoy) {
+        this.fecha      = (TextView) findViewById(R.id.txtFechaTitulo);
+        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
+        this.fecha.setText(format1.format(java.util.Calendar.getInstance().getTime()));
     }
 
     private ArrayList<Cultural> getCulturales(){
