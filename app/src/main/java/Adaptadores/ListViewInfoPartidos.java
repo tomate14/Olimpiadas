@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import Entidades.Partido;
@@ -80,8 +81,18 @@ public class ListViewInfoPartidos extends BaseExpandableListAdapter {
 
     @Override
     public View getChildView(int groupPosition, int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-        return null;
-    }
+        TextView txtFecha;
+        TextView txtLugar;
+
+        View inflate = View.inflate(this.contexto, R.layout.infoculturalhijo,null);
+        txtFecha  = (TextView) inflate.findViewById(R.id.txtFecha);
+        txtLugar = (TextView) inflate.findViewById(R.id.txtLugar);
+        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
+        String fecha = format1.format(partidos.get(groupPosition).getFecha().getTime());
+        txtLugar.setText(partidos.get(groupPosition).getLugar());
+        txtFecha.setText(fecha);
+
+        return inflate;    }
 
     @Override
     public boolean isChildSelectable(int groupPosition, int childPosition) {

@@ -29,7 +29,6 @@
             android:exported="false"></service>
             android:label="@string/title_activity_mostrar_info">
 
-        </activity>
         <service android:name=".ServicioPartido"
             android:exported="false"/>
     </application>
