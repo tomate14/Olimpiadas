@@ -113,7 +113,7 @@ public class MostrarInfo extends AppCompatActivity {
 
     }
 
-    private void setTitulo(String hoy) {
+    private void setTitulo(String fecha) {
         this.fecha      = (TextView) findViewById(R.id.txtFechaTitulo);
         SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
         this.fecha.setText(format1.format(java.util.Calendar.getInstance().getTime()));
