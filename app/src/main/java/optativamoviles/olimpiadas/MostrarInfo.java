@@ -89,14 +89,15 @@ public class MostrarInfo extends AppCompatActivity {
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             switch (accion){
+
                 case MenuPrincipal.ID_VERCULTURALES:
 
                     mServiceIntent.putExtra(OPERATION,CULTURAL_SERVICE);
                     startService(mServiceIntent);
                     break;
-
+                
                 case MenuPrincipal.ID_VERPARTIDOS:
-
+                
                     mServiceIntent.putExtra(OPERATION,PARTIDO_SERVICE);
                     startService(mServiceIntent);
                     break;
