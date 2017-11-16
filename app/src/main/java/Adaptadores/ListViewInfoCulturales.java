@@ -69,13 +69,13 @@ public class ListViewInfoCulturales extends BaseExpandableListAdapter {
         TextView txtResultado;
         TextView txtTitulo;
         View inflate = View.inflate(this.contexto, R.layout.infocultural,null);
+
         txtFacultad1  = (TextView) inflate.findViewById(R.id.txtFacultad1);
         txtTitulo = (TextView) inflate.findViewById(R.id.txtCultural);
-        txtTitulo.setVisibility(View.INVISIBLE);
         txtResultado = (TextView) inflate.findViewById(R.id.txtResultado);
 
+        txtTitulo.setText(culturales.get(groupPosition).getActividad());
         txtFacultad1.setText(culturales.get(groupPosition).getFacultad().getNombre());
-
         txtResultado.setText(culturales.get(groupPosition).getPuntos());
 
         return inflate;
@@ -89,6 +89,8 @@ public class ListViewInfoCulturales extends BaseExpandableListAdapter {
         View inflate = View.inflate(this.contexto, R.layout.infoculturalhijo,null);
         txtFecha  = (TextView) inflate.findViewById(R.id.txtFecha);
         txtLugar = (TextView) inflate.findViewById(R.id.txtLugar);
+        txtLugar.setText(culturales.get(groupPosition).getLugar());
+
 
         return inflate;
     }

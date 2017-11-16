@@ -4,11 +4,11 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/ver_partidos"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@mipmap/calendar"
             android:title="@string/ver_partidos" />
         <item
             android:id="@+id/ver_culturales"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@mipmap/paint"
             android:title="@string/ver_culturales" />
 
     </group>
