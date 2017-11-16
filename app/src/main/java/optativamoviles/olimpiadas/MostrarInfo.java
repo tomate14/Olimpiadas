@@ -92,6 +92,7 @@ public class MostrarInfo extends AppCompatActivity {
         NetworkInfo networkInfo = connMgr.getActiveNetworkInfo();
         if (networkInfo != null && networkInfo.isConnected()) {
             switch (accion){
+
                 case MenuPrincipal.ID_VERCULTURALES:
                     mServiceIntent.putExtra(OPERATION,CULTURAL_SERVICE);
                     startService(mServiceIntent);
@@ -99,13 +100,14 @@ public class MostrarInfo extends AppCompatActivity {
                     this.listView = (ExpandableListView)findViewById(R.id.listView);
                     this.listView.setAdapter(new ListViewInfoCulturales(this,this.culturales));
                     break;
+
                 case MenuPrincipal.ID_VERPARTIDOS:
                    // LocalBroadcastManager.getInstance(this).registerReceiver(reciver, new IntentFilter(ServicioPartido.RESPONSE_ACTION));
 
                     //Intent mServiceIntent = new Intent(MostrarInfo.this, ServicioPartido.class);
                     //startService(mServiceIntent);
 
-                    this.partidos = cargarPartidos();
+                    //this.partidos = cargarPartidos();
                     mServiceIntent.putExtra(OPERATION,PARTIDO_SERVICE);
                     startService(mServiceIntent);
 
