@@ -66,12 +66,14 @@ public class ListViewInfoPartidos extends BaseExpandableListAdapter {
         TextView txtFacultad1;
         TextView txtFacultad2;
         TextView txtResultado;
-
+        TextView txtDeporte;
         View inflate = View.inflate(this.contexto, R.layout.infopartido,null);
 
+        txtDeporte = (TextView) inflate.findViewById(R.id.txtDeporte);
         txtFacultad1  = (TextView) inflate.findViewById(R.id.txtFacultad1);
         txtFacultad2 = (TextView) inflate.findViewById(R.id.txtFacultad2);
         txtResultado = (TextView) inflate.findViewById(R.id.txtResultado);
+        txtDeporte.setText(partidos.get(groupPosition).getDeporte());
         txtFacultad1.setText(partidos.get(groupPosition).getFacultad1().getNombre());
         txtFacultad2.setText(partidos.get(groupPosition).getFacultad2().getNombre());
         txtResultado.setText(partidos.get(groupPosition).getResultado());
@@ -88,9 +90,9 @@ public class ListViewInfoPartidos extends BaseExpandableListAdapter {
         txtFecha  = (TextView) inflate.findViewById(R.id.txtFecha);
         txtLugar = (TextView) inflate.findViewById(R.id.txtLugar);
         SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
-        String fecha = format1.format(partidos.get(groupPosition).getFecha().getTime());
+        //String fecha = format1.format(partidos.get(groupPosition).getFecha().getTime());
         txtLugar.setText(partidos.get(groupPosition).getLugar());
-        txtFecha.setText(fecha);
+       // txtFecha.setText(fecha);
 
         return inflate;    }
 

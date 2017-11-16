@@ -7,6 +7,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -15,6 +16,7 @@ import java.io.StringWriter;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.CharBuffer;
 
 /**
  * Created by Flia. Ferreira on 14/11/2017.
@@ -48,7 +50,7 @@ public class ServiceCaller extends IntentService {
             int responseCode = conn.getResponseCode();
 
             is = conn.getInputStream();
-            String contentAsString = convertIsToString(is, 1000);
+            String contentAsString = convertIsToString(is);
             Log.d(TAG, contentAsString);
             Intent response = new Intent(RESPONSE_ACTION);
             response.putExtra(SERVICE_TYPE,operation);
@@ -72,14 +74,15 @@ public class ServiceCaller extends IntentService {
 
     }
 
-    public String convertIsToString(InputStream stream, int len)
+    public String convertIsToString(InputStream stream)
             throws IOException, UnsupportedEncodingException {
 
 
         Reader reader = null;
         reader = new InputStreamReader(stream, "UTF-8");
-        char[] buffer = new char[len];
-        reader.read(buffer);
-        return new String(buffer);
+        ;
+        BufferedReader buffer = new BufferedReader(reader);
+        String line = buffer.readLine();
+        return line;
     }
 }
