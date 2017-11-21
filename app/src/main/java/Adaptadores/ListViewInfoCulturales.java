@@ -90,6 +90,7 @@ public class ListViewInfoCulturales extends BaseExpandableListAdapter {
         txtFecha  = (TextView) inflate.findViewById(R.id.txtFecha);
         txtLugar = (TextView) inflate.findViewById(R.id.txtLugar);
         txtLugar.setText(culturales.get(groupPosition).getLugar());
+        txtFecha.setText(culturales.get(groupPosition).getFecha().getTime().toString());
 
 
         return inflate;

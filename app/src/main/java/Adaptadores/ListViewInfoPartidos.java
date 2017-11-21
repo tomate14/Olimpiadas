@@ -6,8 +6,10 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.TextView;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import Entidades.Partido;
 import optativamoviles.olimpiadas.MostrarInfo;
@@ -91,10 +93,10 @@ public class ListViewInfoPartidos extends BaseExpandableListAdapter {
         View inflate = View.inflate(this.contexto, R.layout.infoculturalhijo,null);
         txtFecha  = (TextView) inflate.findViewById(R.id.txtFecha);
         txtLugar = (TextView) inflate.findViewById(R.id.txtLugar);
-        SimpleDateFormat format1 = new SimpleDateFormat("dd/MM/yyyy");
-        //String fecha = format1.format(partidos.get(groupPosition).getFecha().getTime());
+        Date fecha = partidos.get(groupPosition).getFecha().getTime();
+        String s = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(fecha);
         txtLugar.setText(partidos.get(groupPosition).getLugar());
-       // txtFecha.setText(fecha);
+        txtFecha.setText(s);
 
         return inflate;    }
 
