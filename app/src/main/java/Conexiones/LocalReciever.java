@@ -13,6 +13,7 @@ import java.lang.reflect.Array;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 
 import Entidades.Cultural;
@@ -62,10 +63,10 @@ public class LocalReciever extends BroadcastReceiver {
                         c1.setFacultad(f1);
 
                         //setFecha al Cultural
-                       // java.util.Calendar cal = java.util.Calendar.getInstance();
-                        //SimpleDateFormat sdf = new SimpleDateFormat();
-                        //cal.setTime(sdf.parse(json.getString("fecha")));
-                        //c1.setFecha(cal);
+                        java.util.Calendar cal = java.util.Calendar.getInstance();
+                        Date date = new Date(json.getLong("fecha"));
+                        cal.setTime(date);
+                        c1.setFecha(cal);
 
                         c1.setLugar(json.getString("lugar"));
                         c1.setActividad(json.getString("actividad"));
@@ -106,11 +107,11 @@ public class LocalReciever extends BroadcastReceiver {
                     f2.setNombre(jsonFacultad.getString("nombre"));
                     p1.setFacultad2(f2);
 
-                    //setFecha al Cultural
-                    // java.util.Calendar cal = java.util.Calendar.getInstance();
-                    //SimpleDateFormat sdf = new SimpleDateFormat();
-                    //cal.setTime(sdf.parse(json.getString("fecha")));
-                    //c1.setFecha(cal);
+                    //setFecha al Partido
+                    java.util.Calendar cal = java.util.Calendar.getInstance();
+                    Date date = new Date(json.getLong("fecha"));
+                    cal.setTime(date);
+                    p1.setFecha(cal);
 
                     p1.setLugar(json.getString("lugar"));
                     p1.setDeporte(json.getString("deporte"));

@@ -26,11 +26,10 @@
             android:name=".MostrarInfo"
             android:label="@string/title_activity_mostrar_info"></activity>
         <service android:name=".ServiceCaller"
-            android:exported="false"></service>
+            android:exported="false"></service><![CDATA[
             android:label="@string/title_activity_mostrar_info">
 
-        <service android:name=".ServicioPartido"
-            android:exported="false"/>
+        ]]>
     </application>
 
 </manifest>
