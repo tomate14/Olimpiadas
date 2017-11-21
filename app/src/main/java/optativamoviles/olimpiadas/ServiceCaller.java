@@ -27,7 +27,7 @@ public class ServiceCaller extends IntentService {
     public static final String RESPONSE_ACTION = "Respuesta del servidor";
     public static final String RESPONSE = "DATA RESPONSE";
     public static final String SERVICE_TYPE = "SERVICE_TYPE";
-    final String BASE_URL = "http://192.168.1.38:8080/OlimpicRestServer/olimpic/";
+    final String BASE_URL = "http://192.168.0.13:8080/OlimpicRestServer/olimpic/";
     static final String TAG = ServiceCaller.class.getCanonicalName();
 
     public ServiceCaller() {
@@ -80,7 +80,6 @@ public class ServiceCaller extends IntentService {
 
         Reader reader = null;
         reader = new InputStreamReader(stream, "UTF-8");
-        ;
         BufferedReader buffer = new BufferedReader(reader);
         String line = buffer.readLine();
         return line;

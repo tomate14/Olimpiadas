@@ -75,7 +75,9 @@ public class LocalReciever extends BroadcastReceiver {
                         culturales.add(c1);
 
                     }
-                actividadInfo.getCulturales(culturales);
+                    /*En vez de cargar la lista directamente, guardo las culturales*/
+                    actividadInfo.culturales = culturales;
+                //actividadInfo.getCulturales(culturales);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -120,7 +122,9 @@ public class LocalReciever extends BroadcastReceiver {
                     partidos.add(p1);
 
                 }
-                actividadInfo.getPartidos(partidos);
+                /*En vez de cargar la lista directamente, guardo los partidos*/
+                actividadInfo.partidos = partidos;
+                //actividadInfo.getPartidos(partidos);
             } catch (Exception e) {
                 e.printStackTrace();
             }
