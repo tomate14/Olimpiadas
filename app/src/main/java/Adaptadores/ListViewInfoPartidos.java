@@ -94,9 +94,9 @@ public class ListViewInfoPartidos extends BaseExpandableListAdapter {
         txtFecha  = (TextView) inflate.findViewById(R.id.txtFecha);
         txtLugar = (TextView) inflate.findViewById(R.id.txtLugar);
         Date fecha = partidos.get(groupPosition).getFecha().getTime();
-        String s = new SimpleDateFormat("dd/MM/yyyy HH:mm").format(fecha);
-        txtLugar.setText(partidos.get(groupPosition).getLugar());
-        txtFecha.setText(s);
+        String s = new SimpleDateFormat("HH:mm").format(fecha);
+        txtFecha.setText("Horario: "+ s + " hs");
+        txtLugar.setText("Lugar: " + partidos.get(groupPosition).getLugar());
 
         return inflate;    }
 

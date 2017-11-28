@@ -3,24 +3,17 @@ package Conexiones;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 import org.json.JSONArray;
-import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.lang.reflect.Array;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import Entidades.Cultural;
 import Entidades.Facultad;
 import Entidades.Partido;
 import optativamoviles.olimpiadas.MostrarInfo;
-
 import optativamoviles.olimpiadas.ServiceCaller;
 
 /**
@@ -28,8 +21,6 @@ import optativamoviles.olimpiadas.ServiceCaller;
  */
 
 public class LocalReciever extends BroadcastReceiver {
-
-    static final String TAG = LocalReciever.class.getCanonicalName();
 
     private MostrarInfo actividadInfo;
 
@@ -75,9 +66,8 @@ public class LocalReciever extends BroadcastReceiver {
                         culturales.add(c1);
 
                     }
-                    /*En vez de cargar la lista directamente, guardo las culturales*/
-                    actividadInfo.culturales = culturales;
-                //actividadInfo.getCulturales(culturales);
+                    actividadInfo.getCulturales(culturales,intent.getStringExtra("dia"));
+
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -122,9 +112,9 @@ public class LocalReciever extends BroadcastReceiver {
                     partidos.add(p1);
 
                 }
-                /*En vez de cargar la lista directamente, guardo los partidos*/
-                actividadInfo.partidos = partidos;
-                //actividadInfo.getPartidos(partidos);
+
+                actividadInfo.getPartidos(partidos,intent.getStringExtra("dia"));
+
             } catch (Exception e) {
                 e.printStackTrace();
             }

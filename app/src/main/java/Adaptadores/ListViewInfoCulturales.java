@@ -8,7 +8,9 @@ import android.widget.ExpandableListAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 import Entidades.Cultural;
 import optativamoviles.olimpiadas.MostrarInfo;
@@ -76,7 +78,7 @@ public class ListViewInfoCulturales extends BaseExpandableListAdapter {
 
         txtTitulo.setText(culturales.get(groupPosition).getActividad());
         txtFacultad1.setText(culturales.get(groupPosition).getFacultad().getNombre());
-        txtResultado.setText(culturales.get(groupPosition).getPuntos());
+        txtResultado.setText("Puntos: " + culturales.get(groupPosition).getPuntos());
 
         return inflate;
     }
@@ -89,9 +91,10 @@ public class ListViewInfoCulturales extends BaseExpandableListAdapter {
         View inflate = View.inflate(this.contexto, R.layout.infoculturalhijo,null);
         txtFecha  = (TextView) inflate.findViewById(R.id.txtFecha);
         txtLugar = (TextView) inflate.findViewById(R.id.txtLugar);
-        txtLugar.setText(culturales.get(groupPosition).getLugar());
-        txtFecha.setText(culturales.get(groupPosition).getFecha().getTime().toString());
-
+        txtLugar.setText("Lugar: " + culturales.get(groupPosition).getLugar());
+        Date fecha = culturales.get(groupPosition).getFecha().getTime();
+        String s = new SimpleDateFormat("HH:mm").format(fecha);
+        txtFecha.setText("Horario: "+ s + " hs");
 
         return inflate;
     }

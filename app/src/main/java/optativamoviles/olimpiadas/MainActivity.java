@@ -7,23 +7,32 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
 public class MainActivity extends AppCompatActivity {
 
-
+    private static final long SPLASH_SCREEN_DELAY = 2000;
     static final String TAG = MainActivity.class.getCanonicalName();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Button boton = (Button)findViewById(R.id.button);
+        startApp();
+    }
 
-        boton.setOnClickListener(new View.OnClickListener(){
-
+    private void startApp() {
+        TimerTask task = new TimerTask() {
             @Override
-            public void onClick(View v) {
-                Intent menuPrincipal = new Intent(MainActivity.this, MenuPrincipal.class);
-                startActivity(menuPrincipal);
+            public void run() {
+                // Start the next activity
+                Intent login = new Intent(MainActivity.this, MenuPrincipal.class);
+                startActivity(login);
+                finish();
             }
-        });
+        };
+
+        Timer timer = new Timer();
+        timer.schedule(task, SPLASH_SCREEN_DELAY);
     }
 }
