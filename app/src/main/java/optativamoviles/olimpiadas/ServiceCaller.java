@@ -27,7 +27,7 @@ public class ServiceCaller extends IntentService {
     public static final String RESPONSE_ACTION = "Respuesta del servidor";
     public static final String RESPONSE = "DATA RESPONSE";
     public static final String SERVICE_TYPE = "SERVICE_TYPE";
-    final String BASE_URL = "http://192.168.0.19:8080/OlimpicRestServer/olimpic/";
+    final String BASE_URL = "http://192.168.0.10:8080/OlimpicRestServer/olimpic/";
     static final String TAG = ServiceCaller.class.getCanonicalName();
 
     public ServiceCaller() {
@@ -47,16 +47,17 @@ public class ServiceCaller extends IntentService {
             conn.setRequestMethod("GET");
             conn.setDoInput(true);
             conn.connect();
-            int responseCode = conn.getResponseCode();
 
+            int responseCode = conn.getResponseCode();
             is = conn.getInputStream();
-            String contentAsString = convertIsToString(is);
+            String contentAsString = convertIsToString(is); // parse InPut Stream to String
             Log.d(TAG, contentAsString);
+            // preparacion de intent para interactuar con el Reciever de la actividad que te llamo
             Intent response = new Intent(RESPONSE_ACTION);
             response.putExtra(SERVICE_TYPE,operation);
             response.putExtra("dia",intent.getStringExtra("dia"));
             response.putExtra(RESPONSE, contentAsString);
-            LocalBroadcastManager.getInstance(this).sendBroadcast(response);
+            LocalBroadcastManager.getInstance(this).sendBroadcast(response); // mando broadcast para que todos los reciever escuchen el intent
 
 
         } catch (Exception e) {
